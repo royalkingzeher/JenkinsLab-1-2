@@ -3,26 +3,37 @@ pipeline {
     tools {
         maven 'MAVEN_HOME'
     }
-    stages {
-            stage('Stage 1 : Clean Stage'){
-                steps{
-                    sh 'mvn clean'
-                }
+      stages {
+        stage('Compile') {
+            steps {
+                sh 'mvn compile'
             }
-            stage('Stage 2 : test Stage'){
-                steps{
-                    sh 'mvn test'
-                }
+        }
+        stage('Code Analysis') {
+            steps {
+                // Perform static code analysis (e.g., SonarQube)
             }
-            stage('Stage 3 : Install stage'){
-                steps{
-                    sh 'mvn install'
-                }
+        }
+        stage('Review') {
+            steps {
+                // Manual review process
             }
-            stage('Stage Final : Build Sucess'){
-                steps{
-                    echo 'Build Sucessfull'
-                }
+        }
+        stage('Unit Test') {
+            steps {
+                sh 'mvn test'
             }
+        }
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Deploy the WAR file to Tomcat
+                sh 'cp target/*.war $TOMCAT_HOME/webapps/'
+            }
+        }
     }
 }
